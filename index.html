@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Tic Tac Toe</title>
+
+    <style>
+        /* Resetting basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+
+        /* Team info section */
+        .team-info {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .team-info h2 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #5c6bc0;
+        }
+
+        .team-info ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .team-info li {
+            font-size: 18px;
+            margin-bottom: 10px;
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .team-info li span {
+            font-weight: bold;
+            color: #00796b;
+        }
+
+        /* Game container styles */
+        .game-container {
+            text-align: center;
+            width: 320px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            font-size: 28px;
+            color: #5c6bc0;
+        }
+
+        /* Game board styles */
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 100px);
+            grid-template-rows: repeat(3, 100px);
+            gap: 5px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        .cell {
+            width: 100px;
+            height: 100px;
+            background-color: #f2f2f2;
+            border: 2px solid #bbb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 10px;
+        }
+
+        .cell:hover {
+            background-color: #e0e0e0;
+        }
+
+        .cell.X {
+            color: #ff6347; /* Tomato Red for X */
+        }
+
+        .cell.O {
+            color: #3e8e41; /* Green for O */
+        }
+
+        /* Player info styles */
+        .player-info {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #5c6bc0;
+        }
+
+        /* Message and button */
+        #message {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Data Anggota Kelompok -->
+    <div class="team-info"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <h2>Data Anggota Kelompok</h2>
+        <ul>
+            <li><span>1.linda ramadanty</span></li>
+            <li><span>2.nabilah</span></li>
+            <li><span>3.nova mila rosa</span></li>
+            <li><span>4.mutia desty yanti</span></li>
+            <li><span>5.nurhalimah</span></li>
+            <li><span>6.shafira raisya</span></li>
+        </ul>
+    </div>
+
+    <div class="game-container">
+        <h1>Permainan Tic Tac Toe</h1>
+        
+        <!-- Info pemain yang sedang bermain -->
+        <div class="player-info" id="player-info">Giliran Pemain: X</div>
+
+        <div id="game-board">
+            <div class="cell" onclick="makeMove(0)"></div>
+            <div class="cell" onclick="makeMove(1)"></div>
+            <div class="cell" onclick="makeMove(2)"></div>
+            <div class="cell" onclick="makeMove(3)"></div>
+            <div class="cell" onclick="makeMove(4)"></div>
+            <div class="cell" onclick="makeMove(5)"></div>
+            <div class="cell" onclick="makeMove(6)"></div>
+            <div class="cell" onclick="makeMove(7)"></div>
+            <div class="cell" onclick="makeMove(8)"></div>
+        </div>
+        
+        <button onclick="restartGame()">Mulai Lagi</button>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        let board = ['', '', '', '', '', '', '', '', ''];
+        let currentPlayer = 'X';
+        let gameActive = true;
+
+        const cells = document.querySelectorAll('.cell');
+        const message = document.getElementById('message');
+        const playerInfo = document.getElementById('player-info');
+
+        function makeMove(index) {
+            if (board[index] !== '' || !gameActive) return;
+
+            // Make the move
+            board[index] = currentPlayer;
+            cells[index].textContent = currentPlayer;
+            cells[index].classList.add(currentPlayer);
+
+            // Check for winner
+            if (checkWinner()) {
+                message.textContent = `${currentPlayer} menang!`;
+                gameActive = false;
+                return;
+            }
+
+            // Check for draw
+            if (!board.includes('')) {
+                message.textContent = 'Seri!';
+                gameActive = false;
+                return;
+            }
+
+            // Switch player
+            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+            playerInfo.textContent = `Giliran Pemain: ${currentPlayer}`;
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8], // horizontal
+                [0, 3, 6], [1, 4, 7], [2, 5, 8], // vertical
+                [0, 4, 8], [2, 4, 6]             // diagonal
+            ];
+
+            for (const pattern of winPatterns) {
+                const [a, b, c] = pattern;
+                if (board[a] === board[b] && board[b] === board[c] && board[a] !== '') {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function restartGame() {
+            board = ['', '', '', '', '', '', '', '', ''];
+            currentPlayer = 'X';
+            gameActive = true;
+            message.textContent = '';
+            playerInfo.textContent = `Giliran Pemain: ${currentPlayer}`;
+
+            // Clear board
+            cells.forEach(cell => {
+                cell.textContent = '';
+                cell.classList.remove('X', 'O');
+            });
+        }
+    </script>
+
+</body>
+</html>
