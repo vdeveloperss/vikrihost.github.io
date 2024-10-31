@@ -1,254 +1,338 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Tic Tac Toe</title>
-
+    <title>Catatan Baju</title>
     <style>
-        /* Resetting basic styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f7f7f7;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            color: #333;
-            padding: 20px;
-        }
-
-        /* Team info section */
-        .team-info {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background-color: #ffffff;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
-            width: 100%;
-            max-width: 400px;
-        }
-
-        .team-info h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #5c6bc0;
-        }
-
-        .team-info ul {
-            list-style-type: none;
+            background-color: #eef2f3;
+            margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
 
-        .team-info li {
-            font-size: 18px;
-            margin-bottom: 10px;
-            background-color: #f4f4f4;
-            padding: 10px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        .team-info li span {
-            font-weight: bold;
-            color: #00796b;
-        }
-
-        /* Game container styles */
-        .game-container {
-            text-align: center;
-            width: 320px;
+        .container {
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
         }
 
         h1 {
+            text-align: center;
+            color: #4a4a4a;
+            font-size: 2.5em;
             margin-bottom: 20px;
-            font-size: 28px;
-            color: #5c6bc0;
         }
 
-        /* Game board styles */
-        #game-board {
-            display: grid;
-            grid-template-columns: repeat(3, 100px);
-            grid-template-rows: repeat(3, 100px);
-            gap: 5px;
-            margin-bottom: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            background-color: #ffffff;
-        }
-
-        .cell {
-            width: 100px;
-            height: 100px;
-            background-color: #f2f2f2;
-            border: 2px solid #bbb;
+        form {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-            border-radius: 10px;
-        }
-
-        .cell:hover {
-            background-color: #e0e0e0;
-        }
-
-        .cell.X {
-            color: #ff6347; /* Tomato Red for X */
-        }
-
-        .cell.O {
-            color: #3e8e41; /* Green for O */
-        }
-
-        /* Player info styles */
-        .player-info {
-            font-size: 18px;
-            font-weight: bold;
+            flex-direction: column;
+            gap: 10px;
             margin-bottom: 20px;
-            color: #5c6bc0;
         }
 
-        /* Message and button */
-        #message {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 20px;
+        input, button {
+            padding: 10px;
+            font-size: 1em;
+            border: 2px solid #4caf50;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        input:focus, button:hover {
+            border-color: #45a049;
+            outline: none;
+            box-shadow: 0 0 5px rgba(72, 184, 70, 0.5);
         }
 
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #28a745;
+            background-color: #4caf50;
             color: white;
+            cursor: pointer;
+            margin-top: 10px; /* Tambahkan margin untuk tombol */
+        }
+
+        button:disabled {
+            background-color: #ccc;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            font-size: 1.1em;
+        }
+
+        th {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            input, button {
+                font-size: 0.9em;
+            }
+
+            th, td {
+                font-size: 1em;
+                padding: 10px;
+            }
+        }
+
+        /* Button styling for better accessibility */
+        button {
             border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         button:hover {
-            background-color: #218838;
+            background-color: #45a049;
+            transform: translateY(-1px);
+        }
+
+        /* Add margin for table rows */
+        tr {
+            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-
-    <!-- Data Anggota Kelompok -->
-    <div class="team-info"><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        <h2>Data Anggota Kelompok</h2>
-        <ul>
-            <li><span>1.linda ramadanty</span></li>
-            <li><span>2.nabilah</span></li>
-            <li><span>3.nova mila rosa</span></li>
-            <li><span>4.mutia desty yanti</span></li>
-            <li><span>5.nurhalimah</span></li>
-            <li><span>6.shafira raisya</span></li>
-        </ul>
-    </div>
-
-    <div class="game-container">
-        <h1>Permainan Tic Tac Toe</h1>
+    <div class="container">
+        <h1>Catatan Baju</h1>
         
-        <!-- Info pemain yang sedang bermain -->
-        <div class="player-info" id="player-info">Giliran Pemain: X</div>
+        <form id="savingsForm">
+            <input type="text" id="name" placeholder="Nama Orang" required>
+            <input type="number" id="target" placeholder="Target Tabungan (Rp)" required>
+            <button type="submit">Tambahkan Orang</button>
+        </form>
 
-        <div id="game-board">
-            <div class="cell" onclick="makeMove(0)"></div>
-            <div class="cell" onclick="makeMove(1)"></div>
-            <div class="cell" onclick="makeMove(2)"></div>
-            <div class="cell" onclick="makeMove(3)"></div>
-            <div class="cell" onclick="makeMove(4)"></div>
-            <div class="cell" onclick="makeMove(5)"></div>
-            <div class="cell" onclick="makeMove(6)"></div>
-            <div class="cell" onclick="makeMove(7)"></div>
-            <div class="cell" onclick="makeMove(8)"></div>
-        </div>
-        
-        <button onclick="restartGame()">Mulai Lagi</button>
-        <div id="message"></div>
+        <button id="downloadBtn">Download Excel</button> <!-- Tombol Download -->
+
+        <table id="savingsTable">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Target Tabungan</th>
+                    <th>Jumlah Terkumpul</th>
+                    <th>Tambah Tabungan</th>
+                    <th>Kurangi Tabungan</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data akan muncul di sini -->
+            </tbody>
+        </table>
     </div>
-
+    
     <script>
-        let board = ['', '', '', '', '', '', '', '', ''];
-        let currentPlayer = 'X';
-        let gameActive = true;
+        const correctPassword = '123456'; // Set password yang benar
 
-        const cells = document.querySelectorAll('.cell');
-        const message = document.getElementById('message');
-        const playerInfo = document.getElementById('player-info');
+        // Event untuk form
+        document.getElementById('savingsForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const name = document.getElementById('name').value;
+            const target = parseInt(document.getElementById('target').value);
 
-        function makeMove(index) {
-            if (board[index] !== '' || !gameActive) return;
-
-            // Make the move
-            board[index] = currentPlayer;
-            cells[index].textContent = currentPlayer;
-            cells[index].classList.add(currentPlayer);
-
-            // Check for winner
-            if (checkWinner()) {
-                message.textContent = `${currentPlayer} menang!`;
-                gameActive = false;
-                return;
+            if (name && target) {
+                addPerson(name, target);
+                displaySavings();
             }
 
-            // Check for draw
-            if (!board.includes('')) {
-                message.textContent = 'Seri!';
-                gameActive = false;
-                return;
-            }
+            this.reset();
+        });
 
-            // Switch player
-            currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-            playerInfo.textContent = `Giliran Pemain: ${currentPlayer}`;
+        // Ambil data dari localStorage
+        function getSavings() {
+            return JSON.parse(localStorage.getItem('savings')) || [];
         }
 
-        function checkWinner() {
-            const winPatterns = [
-                [0, 1, 2], [3, 4, 5], [6, 7, 8], // horizontal
-                [0, 3, 6], [1, 4, 7], [2, 5, 8], // vertical
-                [0, 4, 8], [2, 4, 6]             // diagonal
-            ];
-
-            for (const pattern of winPatterns) {
-                const [a, b, c] = pattern;
-                if (board[a] === board[b] && board[b] === board[c] && board[a] !== '') {
-                    return true;
-                }
-            }
-            return false;
+        // Set data ke localStorage
+        function setSavings(savings) {
+            localStorage.setItem('savings', JSON.stringify(savings));
         }
 
-        function restartGame() {
-            board = ['', '', '', '', '', '', '', '', ''];
-            currentPlayer = 'X';
-            gameActive = true;
-            message.textContent = '';
-            playerInfo.textContent = `Giliran Pemain: ${currentPlayer}`;
+        // Tambah orang baru
+        function addPerson(name, target) {
+            const savings = getSavings();
+            savings.push({ name, target, collected: 0 });
+            setSavings(savings);
+        }
 
-            // Clear board
-            cells.forEach(cell => {
-                cell.textContent = '';
-                cell.classList.remove('X', 'O');
+        // Update tabungan orang tertentu
+        function updateSavings(index, amount) {
+            const savings = getSavings();
+            savings[index].collected += amount;
+            setSavings(savings);
+            displaySavings();
+        }
+
+        // Kurangi tabungan orang tertentu
+        function decreaseSavings(index, amount) {
+            const savings = getSavings();
+            savings[index].collected -= amount;
+            if (savings[index].collected < 0) savings[index].collected = 0; // Tidak bisa kurang dari 0
+            setSavings(savings);
+            displaySavings();
+        }
+
+        // Hapus orang dari list
+        function deletePerson(index) {
+            const password = prompt('Masukkan password untuk menghapus:');
+            if (password === correctPassword) {
+                const savings = getSavings();
+                savings.splice(index, 1);
+                setSavings(savings);
+                displaySavings();
+            } else {
+                alert('Password salah! Hapus gagal.');
+            }
+        }
+
+        // Format uang menjadi Rp
+        function formatRupiah(amount) {
+            return "Rp " + amount.toLocaleString("id-ID");
+        }
+
+        // Format angka dengan titik sebagai pemisah ribuan
+        function formatWithDot(amount) {
+            return amount.toString().replace(/\B(?=(\d{3})+(?!\d))/g, "."); // Tambahkan titik setiap 3 digit
+        }
+
+        // Tampilkan data tabungan
+        function displaySavings() {
+            const savings = getSavings();
+            const savingsTable = document.getElementById('savingsTable').querySelector('tbody');
+            savingsTable.innerHTML = '';
+
+            savings.forEach((person, index) => {
+                const row = document.createElement('tr');
+
+                // Nama
+                const nameCell = document.createElement('td');
+                nameCell.textContent = person.name;
+
+                // Target tabungan
+                const targetCell = document.createElement('td');
+                targetCell.textContent = formatRupiah(person.target);
+
+                // Jumlah terkumpul
+                const collectedCell = document.createElement('td');
+                collectedCell.textContent = formatRupiah(person.collected);
+
+                // Input jumlah yang ingin ditambahkan
+                const addSavingsCell = document.createElement('td');
+                const addInput = document.createElement('input');
+                addInput.type = 'number';
+                addInput.placeholder = 'Tambah (Rp)';
+                addInput.min = '0';
+                
+                const addButton = document.createElement('button');
+                addButton.textContent = 'Tambah';
+                addButton.onclick = () => {
+                    const amount = parseInt(addInput.value);
+                    if (!isNaN(amount) && amount > 0) {
+                        updateSavings(index, amount);
+                    }
+                    addInput.value = '';
+                };
+
+                addSavingsCell.appendChild(addInput);
+                addSavingsCell.appendChild(addButton);
+
+                // Input jumlah yang ingin dikurangi
+                const decreaseSavingsCell = document.createElement('td');
+                const decreaseInput = document.createElement('input');
+                decreaseInput.type = 'number';
+                decreaseInput.placeholder = 'Kurangi (Rp)';
+                decreaseInput.min = '0';
+                
+                const decreaseButton = document.createElement('button');
+                decreaseButton.textContent = 'Kurangi';
+                decreaseButton.onclick = () => {
+                    const amount = parseInt(decreaseInput.value);
+                    if (!isNaN(amount) && amount > 0) {
+                        decreaseSavings(index, amount);
+                    }
+                    decreaseInput.value = '';
+                };
+
+                decreaseSavingsCell.appendChild(decreaseInput);
+                decreaseSavingsCell.appendChild(decreaseButton);
+
+                // Aksi hapus
+                const actionCell = document.createElement('td');
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Hapus';
+                deleteButton.onclick = () => deletePerson(index);
+                actionCell.appendChild(deleteButton);
+
+                row.appendChild(nameCell);
+                row.appendChild(targetCell);
+                row.appendChild(collectedCell);
+                row.appendChild(addSavingsCell);
+                row.appendChild(decreaseSavingsCell);
+                row.appendChild(actionCell);
+
+                savingsTable.appendChild(row);
             });
         }
-    </script>
 
+        // Fungsi untuk mendownload data sebagai file CSV
+        function downloadCSV() {
+            const savings = getSavings();
+            let csvContent = "data:text/csv;charset=utf-8,";
+            csvContent += "Nama,Target Tabungan,Jumlah Terkumpul,Status\n"; // Header CSV
+
+            savings.forEach(person => {
+                // Tentukan status Lunas atau Belum Lunas
+                const status = person.collected >= person.target ? 'Lunas' : 'Belum Lunas';
+                const row = `${person.name},${formatWithDot(person.target)},${formatWithDot(person.collected)},${status}`;
+                csvContent += row + "\n"; // Menambahkan setiap baris data
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "catatan_baju.csv");
+            document.body.appendChild(link); // Append to the body
+
+            link.click(); // Simulate click to download
+            document.body.removeChild(link); // Remove link after download
+        }
+
+        // Event listener untuk tombol download
+        document.getElementById('downloadBtn').addEventListener('click', downloadCSV);
+
+        // Tampilkan data saat halaman di-load
+        displaySavings();
+    </script>
 </body>
 </html>
